@@ -13,6 +13,7 @@ from itertools import count
 import pandas as pd
 import subprocess
 import multiprocessing
+import os
 
 subprocesses = []
 
@@ -27,14 +28,16 @@ def koniec():
     exit()
 
 def gener():
-    subprocesses.append(subprocess.Popen(["python",r"C:\Users\Doge\Desktop\projekt od wjerzana\Gener.py"]))
+    subprocesses.append(subprocess.Popen(["python", r"C:\Users\Doge\Desktop\projekt od wjerzana\Gener.py"]))
 
-##############################################
-##########################################
-
-def save_csv_data(data, folder_name, file_name):
+def save_csv_data():
     # Get the script's directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Get the folder name and file name from the Entry widgets
+    folder_name = folder_entry.get()
+    file_name = file_entry.get()
+    
     # Create the folder path inside the script's directory
     folder_path = os.path.join(script_dir, folder_name)
     
@@ -46,22 +49,10 @@ def save_csv_data(data, folder_name, file_name):
     file_path = os.path.join(folder_path, file_name)
     
     # Save the data as a CSV file
-   
-    
     data = pd.read_csv('data.csv')
-    pressure = data['pressure']
-    voltage = data['voltage']
-
-    fieldnames= ["pressure", "voltage"]
-    with open(file_path, 'w') as csv_file:
-        csv_writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writerrows(data)
+    data.to_csv(file_path, index=False)
     
     print(f"CSV file '{file_path}' saved successfully")
-
-##################################################
-#####################################
-
 
 # Create the main window
 window = tk.Tk()
@@ -74,24 +65,18 @@ start_button.pack()
 exit_button = tk.Button(window, text="stop", command=koniec)
 exit_button.pack()
 
-Generuj_button = tk.Button(window, text="Generuj", command=gener)
-Generuj_button.pack()
+generuj_button = tk.Button(window, text="Generuj", command=gener)
+generuj_button.pack()
 
-zapis_button-tk.button(window, text="zapis", command=save_csv_data)
+zapis_button = tk.Button(window, text="Zapisz CSV", command=save_csv_data)
 zapis_button.pack()
 
-# Create four spaces for writing
-file_name = tk.Entry(window)
-file_name.pack()
+# Create Entry widgets for folder name and file name
+folder_entry = tk.Entry(window)
+folder_entry.pack()
 
-folder_name = tk.Entry(window)
-folder_name.pack()
-
-text_entry3 = tk.Entry(window)
-text_entry3.pack()
-
-text_entry4 = tk.Entry(window)
-text_entry4.pack()
+file_entry = tk.Entry(window)
+file_entry.pack()
 
 # Start the GUI main loop
 window.mainloop()
