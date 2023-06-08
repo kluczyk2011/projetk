@@ -6,24 +6,29 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from itertools import count
 import pandas as pd
+import subprocess
+import multiprocessing
 
-voltage= []
-pressure = []
+
+pressure_dat = []
 
 index = count()
 
 def animate(i):
+    
     data =  pd.read_csv('data.csv')
-    pressure= data['pressure']
-    voltage = data['voltage']
+    pressure_dat= data['pressure']
+    voltage_dat = data['voltage']
     
     plt.cla()
 
-    plt.plot(pressure, voltage)
+    plt.plot(pressure_dat, voltage_dat)
     plt.legend(loc='upper right')
     plt.tight_layout()
 
-ani = FuncAnimation(plt.gcf(), animate, interval=1000)
+
+
+ani = FuncAnimation(plt.gcf(), animate, interval=500)
 plt.tight_layout()
 plt.show()
 
