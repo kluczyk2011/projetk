@@ -9,26 +9,31 @@ import pandas as pd
 import subprocess
 import multiprocessing
 
-
-pressure_dat = []
-
-index = count()
-
-def animate(i):
+def run_animation():
+    pressure_dat = []
+    index = count()
     
-    data =  pd.read_csv('data.csv')
-    pressure_dat= data['pressure']
-    voltage_dat = data['voltage']
-    
-    plt.cla()
 
-    plt.plot(pressure_dat, voltage_dat)
-    plt.legend(loc='upper right')
+    def animate(i):
+        
+
+        if terminated:
+            plt.close()
+            return
+
+        data = pd.read_csv('data.csv')
+        pressure_dat = data['pressure']
+        voltage_dat = data['voltage']
+
+        plt.cla()
+        plt.plot(pressure_dat, voltage_dat)
+        plt.tight_layout()
+
+    ani = FuncAnimation(plt.gcf(), animate, interval=500)
     plt.tight_layout()
+    plt.show()
 
+    # Terminate the animation gracefully
+    
 
-
-ani = FuncAnimation(plt.gcf(), animate, interval=500)
-plt.tight_layout()
-plt.show()
 

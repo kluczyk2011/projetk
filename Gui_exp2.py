@@ -77,7 +77,7 @@ exit_button.pack()
 Generuj_button = tk.Button(window, text="Generuj", command=gener)
 Generuj_button.pack()
 
-zapis_button-tk.button(window, text="zapis", command=save_csv_data)
+zapis_button = tk.Button(window, text="zapis", command=save_csv_data)
 zapis_button.pack()
 
 # Create four spaces for writing
